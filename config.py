@@ -48,7 +48,7 @@ HEAL_OVER_TIME_CONSUMABLES = ("Bloodwort",)   # longer duration would only slow 
 # Tested in game: the mod can be bought and installed on any weapon. It cannot be taken off again and
 # it is destroyed when that weapon is unequipped, so the shop stocks several copies of each.
 MERCHANT_TABLE = "SpawnTable_Scavenger_PlayerBase"
-MERCHANT_BOSS_MOD_QUANTITY = 3
+MERCHANT_BOSS_MOD_QUANTITY = 30
 # SpawnTableItem_12 is the merchant's own 10,000,000 scrap pool - repointing it would stop him buying.
 MERCHANT_BOSS_MODS = {
     "SpawnTableItem_0": "/Game/World_Wasteland/Items/Weapons/Boss/Ruin/Mod_Undying.Mod_Undying_C",

@@ -1,23 +1,28 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 680" width="1200" height="680" role="img" aria-label="Casual Mod feature overview">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 840" width="1200" height="840" role="img" aria-label="Casual Mod feature overview">
   <defs>
     <linearGradient id="ember2" x1="0" y1="0" x2="1" y2="0">
       <stop offset="0" stop-color="#f0a04b"/>
       <stop offset="1" stop-color="#d8552f"/>
+    </linearGradient>
+    <linearGradient id="highlight" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#241a16"/>
+      <stop offset="1" stop-color="#1b1d24"/>
     </linearGradient>
     <style>
       .card { fill: #1b1d24; stroke: #2c2f37; }
       .title { font-family: Segoe UI, Roboto, Helvetica, Arial, sans-serif; font-size: 21px; font-weight: 600; fill: #f4f5f7; }
       .value { font-family: Segoe UI, Roboto, Helvetica, Arial, sans-serif; font-size: 40px; font-weight: 700; fill: #f0a04b; }
       .line  { font-family: Segoe UI, Roboto, Helvetica, Arial, sans-serif; font-size: 17px; fill: #9aa0ab; }
+      .warn  { font-family: Segoe UI, Roboto, Helvetica, Arial, sans-serif; font-size: 17px; fill: #d8825f; }
       .head  { font-family: Segoe UI, Roboto, Helvetica, Arial, sans-serif; font-size: 30px; font-weight: 700; fill: #f4f5f7; }
       .sub   { font-family: Segoe UI, Roboto, Helvetica, Arial, sans-serif; font-size: 18px; fill: #71757f; }
     </style>
   </defs>
 
-  <rect width="1200" height="680" rx="18" fill="#15171c"/>
+  <rect width="1200" height="840" rx="18" fill="#15171c"/>
   <rect x="40" y="42" width="6" height="42" rx="3" fill="url(#ember2)"/>
   <text x="62" y="64" class="head">What the mod changes</text>
-  <text x="62" y="92" class="sub">321 game assets rebuilt from your own installation</text>
+  <text x="62" y="92" class="sub">322 game assets rebuilt from your own installation</text>
 
   <g>
     <rect x="40" y="130" width="368" height="160" rx="14" class="card"/>
@@ -72,5 +77,16 @@
     <text x="820" y="614" class="line">no armor encumbrance, endless sprint</text>
   </g>
 
-  <text x="40" y="668" class="sub">flexeykinDEV</text>
+  <g>
+    <rect x="40" y="660" width="1120" height="128" rx="14" fill="url(#highlight)" stroke="#4a3328"/>
+    <rect x="40" y="660" width="5" height="128" rx="2.5" fill="url(#ember2)"/>
+    <text x="72" y="702" class="title">Boss weapon mods, now on any weapon</text>
+    <text x="72" y="736" class="line">The Ward 13 merchant stocks 12 mods that are welded into boss weapons in vanilla:</text>
+    <text x="72" y="760" class="line">Undying, Gravity Core, Hive Shot, Vampiric, Flamethrower, Skewer and more.</text>
+    <text x="748" y="710" class="value">30 each</text>
+    <text x="748" y="742" class="warn">cannot be removed once installed</text>
+    <text x="748" y="764" class="warn">and is lost if you unequip the weapon</text>
+  </g>
+
+  <text x="40" y="826" class="sub">flexeykinDEV</text>
 </svg>
