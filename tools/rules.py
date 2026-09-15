@@ -254,6 +254,7 @@ def plan(rel_path):
         return weapon_mod
     if "/Items/Consumables/" in folder:
         return consumable
-    if "/Items/Traits/" in folder and name.startswith("Trait_"):
+    # BP_Remnant_Survival_Trait is the base class the survival traits inherit MaxLevel from
+    if "/Items/Traits/" in folder and (name.startswith("Trait_") or name.endswith("_Survival_Trait")):
         return trait
     return None
