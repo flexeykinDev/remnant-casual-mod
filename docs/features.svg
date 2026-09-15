@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 680" width="1200" height="680" role="img" aria-label="Casual Mod feature overview">
+  <defs>
+    <linearGradient id="ember2" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#f0a04b"/>
+      <stop offset="1" stop-color="#d8552f"/>
+    </linearGradient>
+    <style>
+      .card { fill: #1b1d24; stroke: #2c2f37; }
+      .title { font-family: Segoe UI, Roboto, Helvetica, Arial, sans-serif; font-size: 21px; font-weight: 600; fill: #f4f5f7; }
+      .value { font-family: Segoe UI, Roboto, Helvetica, Arial, sans-serif; font-size: 40px; font-weight: 700; fill: #f0a04b; }
+      .line  { font-family: Segoe UI, Roboto, Helvetica, Arial, sans-serif; font-size: 17px; fill: #9aa0ab; }
+      .head  { font-family: Segoe UI, Roboto, Helvetica, Arial, sans-serif; font-size: 30px; font-weight: 700; fill: #f4f5f7; }
+      .sub   { font-family: Segoe UI, Roboto, Helvetica, Arial, sans-serif; font-size: 18px; fill: #71757f; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="680" rx="18" fill="#15171c"/>
+  <rect x="40" y="42" width="6" height="42" rx="3" fill="url(#ember2)"/>
+  <text x="62" y="64" class="head">What the mod changes</text>
+  <text x="62" y="92" class="sub">321 game assets rebuilt from your own installation</text>
+
+  <g>
+    <rect x="40" y="130" width="368" height="160" rx="14" class="card"/>
+    <text x="68" y="172" class="title">Loot</text>
+    <text x="68" y="222" class="value">x100</text>
+    <text x="68" y="254" class="line">scrap, iron, ammo, lumenite, simulacrum</text>
+    <text x="68" y="276" class="line">normal enemies always drop</text>
+
+    <rect x="416" y="130" width="368" height="160" rx="14" class="card"/>
+    <text x="444" y="172" class="title">Fights</text>
+    <text x="444" y="222" class="value">-50% / -60%</text>
+    <text x="444" y="254" class="line">enemy health and damage</text>
+    <text x="444" y="276" class="line">player: 250 HP, x2 stamina</text>
+
+    <rect x="792" y="130" width="368" height="160" rx="14" class="card"/>
+    <text x="820" y="172" class="title">Weapon mods (F)</text>
+    <text x="820" y="222" class="value">4x faster</text>
+    <text x="820" y="254" class="line">damage, shields, summons x2</text>
+    <text x="820" y="276" class="line">cooldowns halved</text>
+
+    <rect x="40" y="310" width="368" height="160" rx="14" class="card"/>
+    <text x="68" y="352" class="title">Traits</text>
+    <text x="68" y="402" class="value">x3, cap 60</text>
+    <text x="68" y="434" class="line">every trait, level-1 value and growth</text>
+    <text x="68" y="456" class="line">Elder Knowledge and Scavenger x10</text>
+
+    <rect x="416" y="310" width="368" height="160" rx="14" class="card"/>
+    <text x="444" y="352" class="title">Rings and amulets</text>
+    <text x="444" y="402" class="value">x2</text>
+    <text x="444" y="434" class="line">every positive bonus, 130 items</text>
+    <text x="444" y="456" class="line">downsides left untouched</text>
+
+    <rect x="792" y="310" width="368" height="160" rx="14" class="card"/>
+    <text x="820" y="352" class="title">Buffs and potions</text>
+    <text x="820" y="402" class="value">x10 time</text>
+    <text x="820" y="434" class="line">food lasts 10 hours, effects x2</text>
+    <text x="820" y="456" class="line">Dragon Heart: full heal, 10 charges</text>
+
+    <rect x="40" y="490" width="368" height="150" rx="14" class="card"/>
+    <text x="68" y="532" class="title">Weapons</text>
+    <text x="68" y="582" class="value">x2</text>
+    <text x="68" y="614" class="line">damage, clip size and reserve ammo</text>
+
+    <rect x="416" y="490" width="368" height="150" rx="14" class="card"/>
+    <text x="444" y="532" class="title">Trading and crafting</text>
+    <text x="444" y="582" class="value">-90%</text>
+    <text x="444" y="614" class="line">prices and upgrade costs, full refunds</text>
+
+    <rect x="792" y="490" width="368" height="150" rx="14" class="card"/>
+    <text x="820" y="532" class="title">Travel</text>
+    <text x="820" y="582" class="value">0 weight</text>
+    <text x="820" y="614" class="line">no armor encumbrance, endless sprint</text>
+  </g>
+
+  <text x="40" y="668" class="sub">flexeykinDEV</text>
+</svg>

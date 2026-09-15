@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 300" width="1200" height="300" role="img" aria-label="Casual Mod for Remnant: From the Ashes by flexeykinDEV">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#15171c"/>
+      <stop offset="0.55" stop-color="#1b1d24"/>
+      <stop offset="1" stop-color="#241a16"/>
+    </linearGradient>
+    <linearGradient id="ember" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#f0a04b"/>
+      <stop offset="1" stop-color="#d8552f"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.82" cy="0.5" r="0.55">
+      <stop offset="0" stop-color="#d8552f" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#d8552f" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="300" rx="18" fill="url(#bg)"/>
+  <rect width="1200" height="300" rx="18" fill="url(#glow)"/>
+  <g stroke="#ffffff" stroke-opacity="0.05">
+    <path d="M0 80 H1200 M0 150 H1200 M0 220 H1200"/>
+  </g>
+  <rect x="0" y="0" width="8" height="300" rx="4" fill="url(#ember)"/>
+
+  <g font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif">
+    <text x="70" y="96" fill="#8d9099" font-size="22" letter-spacing="7">REMNANT: FROM THE ASHES</text>
+    <text x="70" y="180" fill="#f4f5f7" font-size="82" font-weight="700" letter-spacing="2">CASUAL MOD</text>
+    <text x="70" y="226" fill="url(#ember)" font-size="26" font-weight="600">Loot x100 · easy fights · everything buffed</text>
+    <text x="70" y="266" fill="#6f727b" font-size="19">by flexeykinDEV</text>
+  </g>
+
+  <g transform="translate(980 150)">
+    <circle r="86" fill="none" stroke="#2c2f37" stroke-width="2"/>
+    <circle r="66" fill="none" stroke="url(#ember)" stroke-width="3" stroke-dasharray="300 115" transform="rotate(-35)"/>
+    <circle r="30" fill="#1f2229" stroke="#3a3e48"/>
+    <text y="10" text-anchor="middle" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="26" font-weight="700" fill="#f0a04b">x100</text>
+  </g>
+</svg>
