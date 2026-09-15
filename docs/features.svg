@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 840" width="1200" height="840" role="img" aria-label="Casual Mod feature overview">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 866" width="1200" height="866" role="img" aria-label="Casual Mod feature overview">
   <defs>
     <linearGradient id="ember2" x1="0" y1="0" x2="1" y2="0">
       <stop offset="0" stop-color="#f0a04b"/>
@@ -78,15 +78,16 @@
   </g>
 
   <g>
-    <rect x="40" y="660" width="1120" height="128" rx="14" fill="url(#highlight)" stroke="#4a3328"/>
-    <rect x="40" y="660" width="5" height="128" rx="2.5" fill="url(#ember2)"/>
-    <text x="72" y="702" class="title">Boss weapon mods, now on any weapon</text>
-    <text x="72" y="736" class="line">The Ward 13 merchant stocks 12 mods that are welded into boss weapons in vanilla:</text>
-    <text x="72" y="760" class="line">Undying, Gravity Core, Hive Shot, Vampiric, Flamethrower, Skewer and more.</text>
-    <text x="748" y="710" class="value">12 mods</text>
-    <text x="748" y="742" class="warn">cannot be removed once installed</text>
-    <text x="748" y="764" class="warn">and is lost if you unequip the weapon</text>
+    <rect x="40" y="660" width="1120" height="150" rx="14" fill="url(#highlight)" stroke="#4a3328"/>
+    <rect x="40" y="660" width="5" height="150" rx="2.5" fill="url(#ember2)"/>
+    <text x="72" y="700" class="title">Boss weapon mods, now on any weapon</text>
+    <text x="72" y="732" class="line">12 new crafting recipes at McCabe — pay the same boss material the weapon costs</text>
+    <text x="72" y="756" class="line">(Undying, Gravity Core, Hive Shot, Vampiric, Flamethrower, Skewer and more),</text>
+    <text x="72" y="780" class="line">and the Ward 13 merchant keeps one of each in stock.</text>
+    <text x="800" y="706" class="value">12 mods</text>
+    <text x="800" y="740" class="warn">installed for good: taking the</text>
+    <text x="800" y="762" class="warn">weapon off destroys the mod</text>
   </g>
 
-  <text x="40" y="826" class="sub">flexeykinDEV</text>
+  <text x="40" y="850" class="sub">flexeykinDEV</text>
 </svg>

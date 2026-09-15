@@ -45,12 +45,13 @@ the builds, and removes the grind around them. Made for short sessions, sandbox 
 - Weapon mods (F): charge 4x faster, damage/shields/summons x2, durations x2, cooldowns halved
 - Experience x5
 
-[b]Boss weapon mods for sale[/b]
-- The Ward 13 merchant stocks 12 mods that are welded into boss weapons in vanilla (Undying, Hive Shot,
-  Gravity Core, Flamethrower, Skewer, Vampiric and more), so any weapon can carry one
-- Warning: the game still treats them as built-in. A boss mod cannot be taken off again and is destroyed
-  when you unequip that weapon, so choose the weapon before you install it
-- These entries replace the iron, lumenite and simulacrum the merchant used to sell - all of it drops x100 now
+[b]Boss weapon mods on any weapon[/b]
+- 12 new crafting recipes at McCabe for the mods welded into boss weapons (Undying, Hive Shot, Gravity
+  Core, Flamethrower, Skewer, Vampiric and more), each costing the same boss material as its weapon
+- The Ward 13 merchant also keeps one of each in stock for scrap
+- WARNING: the game still treats them as built-in. Once installed a boss mod cannot be taken off, and
+  unequipping that weapon destroys it - pick the weapon before you commit
+- The merchant entries replace the iron, lumenite and simulacrum he used to sell, all of which drops x100 now
 
 [b]Comfort[/b]
 - Food buffs last 10 hours, potions 10x longer, effects x2

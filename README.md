@@ -4,7 +4,9 @@ A relaxed-mode overhaul for **Remnant: From the Ashes**. Loot x100, weak enemies
 
 ## Install
 
-1. Download `CasualMod_P.pak` from [Releases](../../releases) (or `dist/CasualMod_P.pak` in this repo).
+<a href="../../releases/latest"><img src="docs/download-button.png" alt="Download mod" width="300"></a>
+
+1. Download `CasualMod_P.pak` (button above, or `dist/CasualMod_P.pak` in this repo).
 2. Drop it into `...\steamapps\common\Remnant\Remnant\Content\Paks`.
 3. Start the game.
 
@@ -34,17 +36,20 @@ Singleplayer or hosting only — a client without the mod will not see your valu
 
 Sagestone gives +500% XP, Scavenger's Bauble +500% scrap, and normal enemies always drop loot.
 
-### Boss weapon mods for sale
+### Boss weapon mods on any weapon
 
-The Ward 13 merchant now stocks 12 of the mods that are welded into boss weapons in vanilla — Undying,
-Hive Shot, Gravity Core, Flamethrower and the rest — so you can put them on any weapon you like.
+The 12 mods that are welded into boss weapons in vanilla — Undying, Hive Shot, Gravity Core,
+Flamethrower, Vampiric, Skewer and the rest — can now be obtained on their own:
 
-Read this before you buy: the game still treats them as built-in. **A boss mod cannot be taken off
-again, and it is destroyed when you unequip that weapon**, and the shop only holds one of each until
-the merchant restocks, so pick the weapon you want to keep it on first. This is a
-workaround, not a real slot: the game has no item for these mods, a shop entry is simply pointed at
-the mod asset. The merchant sells them for scrap instead of boss materials, and the entries replace
-the iron, lumenite and simulacrum he used to sell — all of which now drop x100 in the world anyway.
+* **Craft them at McCabe.** Twelve new recipes, each costing the same boss material as the weapon that
+  mod belongs to, plus 1 lumenite and 50 scrap. Choosing "weapon or mod" is a real choice again.
+* **Or buy one from the Ward 13 merchant.** He keeps one of each in stock for scrap, which replaces
+  the iron, lumenite and simulacrum he used to sell — all of it drops x100 in the world now anyway.
+
+⚠️ **Read this before you install one.** The game still treats these as built-in mods: once installed
+**it cannot be taken off, and unequipping that weapon destroys it**. Decide which weapon should carry
+it before you commit. Crafting it again needs another boss material, so re-run the boss in Adventure
+Mode. The regular 23 craftable mods are unaffected and behave as usual.
 
 <details>
 <summary><b>For developers — build it yourself</b></summary>
