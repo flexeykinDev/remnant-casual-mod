@@ -162,6 +162,13 @@ class Asset:
         struct.pack_into("<ii", self.ue, prop["value_pos"], self.name_index(value), 0)
         self.log.append(f"{note}{prop['name']}: {prop['value']} -> {value}")
 
+    def set_bool(self, prop, value, note=""):
+        """A BoolProperty keeps its value in the tag, right before the property guid flag."""
+        if prop["type"] != "BoolProperty":
+            raise TypeError(f"cannot set {prop['type']}")
+        self.ue[prop["value_pos"] - 2] = 1 if value else 0
+        self.log.append(f"{note}{prop['name']}: {prop['value']} -> {bool(value)}")
+
     def insert_int(self, export_index, before_prop, name, value, note=""):
         export = self.exports[export_index]
         pos = before_prop["tag_start"] if before_prop else export["none_pos"]

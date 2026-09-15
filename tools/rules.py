@@ -198,6 +198,9 @@ def add_boss_mod_recipes(a):
         data = bytearray(serial)
         struct.pack_into("<i", data, fields["Item"]["value_pos"] - start, item)
         struct.pack_into("<i", data, fields["Ingredient1"]["value_pos"] - start, material)
+        # vanilla recipes hide themselves until you own the boss material; keep these visible
+        if "bIngredient1HideIfMissing" in fields:
+            data[fields["bIngredient1HideIfMissing"]["value_pos"] - start - 2] = 0
         guid = fields["Guid"]["value_pos"] - start
         data[guid:guid + 16] = hashlib.md5(mod_path.encode()).digest()
 
