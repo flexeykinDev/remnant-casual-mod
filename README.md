@@ -40,7 +40,8 @@ The Ward 13 merchant now stocks 12 of the mods that are welded into boss weapons
 Hive Shot, Gravity Core, Flamethrower and the rest — so you can put them on any weapon you like.
 
 Read this before you buy: the game still treats them as built-in. **A boss mod cannot be taken off
-again, and it is destroyed when you unequip that weapon**, so the shop sells 30 of each. This is a
+again, and it is destroyed when you unequip that weapon**, and the shop only holds one of each until
+the merchant restocks, so pick the weapon you want to keep it on first. This is a
 workaround, not a real slot: the game has no item for these mods, a shop entry is simply pointed at
 the mod asset. The merchant sells them for scrap instead of boss materials, and the entries replace
 the iron, lumenite and simulacrum he used to sell — all of which now drop x100 in the world anyway.

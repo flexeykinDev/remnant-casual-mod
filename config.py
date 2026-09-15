@@ -46,9 +46,11 @@ HEAL_OVER_TIME_CONSUMABLES = ("Bloodwort",)   # longer duration would only slow 
 # weapon. A loot entry points at its item by asset path, so an entry can be repointed at one of them
 # and the Ward 13 merchant will offer it. Each entry used this way replaces what it used to sell.
 # Tested in game: the mod can be bought and installed on any weapon. It cannot be taken off again and
-# it is destroyed when that weapon is unequipped, so the shop stocks several copies of each.
+# it is destroyed when that weapon is unequipped.
+# Keep the quantity at 1: mods have no stack size of their own, and a stock of 30 left the merchant
+# empty - the entry silently fails instead of selling anything.
 MERCHANT_TABLE = "SpawnTable_Scavenger_PlayerBase"
-MERCHANT_BOSS_MOD_QUANTITY = 30
+MERCHANT_BOSS_MOD_QUANTITY = 1
 # SpawnTableItem_12 is the merchant's own 10,000,000 scrap pool - repointing it would stop him buying.
 MERCHANT_BOSS_MODS = {
     "SpawnTableItem_0": "/Game/World_Wasteland/Items/Weapons/Boss/Ruin/Mod_Undying.Mod_Undying_C",

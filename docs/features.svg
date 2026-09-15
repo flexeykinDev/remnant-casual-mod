@@ -83,7 +83,7 @@
     <text x="72" y="702" class="title">Boss weapon mods, now on any weapon</text>
     <text x="72" y="736" class="line">The Ward 13 merchant stocks 12 mods that are welded into boss weapons in vanilla:</text>
     <text x="72" y="760" class="line">Undying, Gravity Core, Hive Shot, Vampiric, Flamethrower, Skewer and more.</text>
-    <text x="748" y="710" class="value">30 each</text>
+    <text x="748" y="710" class="value">12 mods</text>
     <text x="748" y="742" class="warn">cannot be removed once installed</text>
     <text x="748" y="764" class="warn">and is lost if you unequip the weapon</text>
   </g>
