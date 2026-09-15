@@ -45,25 +45,28 @@ HEAL_OVER_TIME_CONSUMABLES = ("Bloodwort",)   # longer duration would only slow 
 # The 13 mods built into boss weapons are not items in vanilla, so they cannot be moved to another
 # weapon. A loot entry points at its item by asset path, so an entry can be repointed at one of them
 # and the Ward 13 merchant will offer it. Each entry used this way replaces what it used to sell.
-# TEST FIRST: one mod only, until it is confirmed that it can be bought and installed on a weapon.
+# Tested in game: the mod can be bought and installed on any weapon. It cannot be taken off again and
+# it is destroyed when that weapon is unequipped, so the shop stocks several copies of each.
 MERCHANT_TABLE = "SpawnTable_Scavenger_PlayerBase"
+MERCHANT_BOSS_MOD_QUANTITY = 3
+# SpawnTableItem_12 is the merchant's own 10,000,000 scrap pool - repointing it would stop him buying.
 MERCHANT_BOSS_MODS = {
-    "SpawnTableItem_3": "/Game/World_Wasteland/Items/Weapons/Boss/Ruin/Mod_Undying.Mod_Undying_C",
+    "SpawnTableItem_0": "/Game/World_Wasteland/Items/Weapons/Boss/Ruin/Mod_Undying.Mod_Undying_C",
+    "SpawnTableItem_1": "/Game/World_Wasteland/Items/Weapons/Boss/ParticleAccelerator/Mod_GravityCoreShot.Mod_GravityCoreShot_C",
+    "SpawnTableItem_2": "/Game/World_Wasteland/Items/Weapons/Boss/Defiler/Mod_RadioactiveVolley.Mod_RadioactiveVolley_C",
+    "SpawnTableItem_3": "/Game/World_Swamp/Items/Weapons/Boss/HiveCannon/Mod_HiveShot.Mod_HiveShot_C",
+    "SpawnTableItem_4": "/Game/World_Swamp/Items/Weapons/Boss/PrideOfTheIskal/Mod_Vampiric.Mod_Vampiric_C",
+    "SpawnTableItem_5": "/Game/World_Swamp/Items/Weapons/Boss/Devastator/Mod_Skewer.Mod_Skewer_C",
+    "SpawnTableItem_6": "/Game/World_Snow/Items/Weapons/Boss/Alternator/Mod_Incinerator.Mod_Incinerator_C",
+    "SpawnTableItem_7": "/Game/World_Rural/Items/Weapons/Boss/FusionRifle/Mod_FusionCannon.Mod_FusionCannon_C",
+    "SpawnTableItem_8": "/Game/World_Jungle/Items/Weapons/Boss/Pan_EyeOfTheStorm/Mod_StaticFieldShot.Mod_StaticFieldShot_C",
+    "SpawnTableItem_9": "/Game/World_Jungle/Items/Weapons/Boss/Pan_CurseOfTheJungleGod/Mod_TentacleShot.Mod_TentacleShot_C",
+    "SpawnTableItem_10": "/Game/World_City/Items/Weapons/Boss/Root_SporeLauncher/Mod_SporeShot.Mod_SporeShot_C",
+    "SpawnTableItem_11": "/Game/World_City/Items/Weapons/Boss/Root_Spitfire/Mod_Flamethrower.Mod_Flamethrower_C",
 }
-# The rest, ready to be added above once the test works (entry name -> path):
+# Banish (Repulsor, Swamps of Corsus) has no shop slot left - swap it in above if you want it.
 BOSS_MOD_PATHS = [
     "/Game/World_Atoll/Items/Weapons/Boss/Guns/LongGuns/Repulsor/Mod_Banish.Mod_Banish_C",
-    "/Game/World_City/Items/Weapons/Boss/Root_Spitfire/Mod_Flamethrower.Mod_Flamethrower_C",
-    "/Game/World_City/Items/Weapons/Boss/Root_SporeLauncher/Mod_SporeShot.Mod_SporeShot_C",
-    "/Game/World_Jungle/Items/Weapons/Boss/Pan_CurseOfTheJungleGod/Mod_TentacleShot.Mod_TentacleShot_C",
-    "/Game/World_Jungle/Items/Weapons/Boss/Pan_EyeOfTheStorm/Mod_StaticFieldShot.Mod_StaticFieldShot_C",
-    "/Game/World_Rural/Items/Weapons/Boss/FusionRifle/Mod_FusionCannon.Mod_FusionCannon_C",
-    "/Game/World_Snow/Items/Weapons/Boss/Alternator/Mod_Incinerator.Mod_Incinerator_C",
-    "/Game/World_Swamp/Items/Weapons/Boss/Devastator/Mod_Skewer.Mod_Skewer_C",
-    "/Game/World_Swamp/Items/Weapons/Boss/HiveCannon/Mod_HiveShot.Mod_HiveShot_C",
-    "/Game/World_Swamp/Items/Weapons/Boss/PrideOfTheIskal/Mod_Vampiric.Mod_Vampiric_C",
-    "/Game/World_Wasteland/Items/Weapons/Boss/Defiler/Mod_RadioactiveVolley.Mod_RadioactiveVolley_C",
-    "/Game/World_Wasteland/Items/Weapons/Boss/ParticleAccelerator/Mod_GravityCoreShot.Mod_GravityCoreShot_C",
 ]
 
 # Dragon Heart heals HealScalar x 100 health, a full heal only at vanilla's 100 max health.

@@ -92,9 +92,14 @@ def spawn_table(a, table_name):
             a.set_name(props["ItemBP"], config.MERCHANT_BOSS_MODS[export["name"]], at)
             for field in ("QuantityMin", "QuantityMax"):
                 if field in props:
-                    a.set(props[field], 1, at)
+                    a.set(props[field], config.MERCHANT_BOSS_MOD_QUANTITY, at)
+                else:
+                    a.insert_int(n, props.get("Chance") or props.get("Tags"), field,
+                                 config.MERCHANT_BOSS_MOD_QUANTITY, at)
             if "Chance" in props:
                 a.set(props["Chance"], 100, at)
+            if "ChanceDecayBelowMinLevel" in props:  # keep them in stock at low character levels
+                a.set(props["ChanceDecayBelowMinLevel"], 0, at)
             continue
 
         if item.startswith("Resource_Special_") and any(s in item for s in SPECIAL_ITEMS):
