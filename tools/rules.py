@@ -81,12 +81,21 @@ def set_fields(a, values):
             a.set(p, value if p["type"] == "IntProperty" else float(value))
 
 
-def spawn_table(a, _name):
+def spawn_table(a, table_name):
     for n, export in enumerate(a.exports):
         props = top(export)
         tags = set(props.get("Tags", {}).get("value") or [])
         item = str(props.get("ItemBP", {}).get("value") or "").rsplit(".", 1)[-1]
         at = f"[{export['name']}] "
+
+        if table_name == config.MERCHANT_TABLE and export["name"] in config.MERCHANT_BOSS_MODS:
+            a.set_name(props["ItemBP"], config.MERCHANT_BOSS_MODS[export["name"]], at)
+            for field in ("QuantityMin", "QuantityMax"):
+                if field in props:
+                    a.set(props[field], 1, at)
+            if "Chance" in props:
+                a.set(props["Chance"], 100, at)
+            continue
 
         if item.startswith("Resource_Special_") and any(s in item for s in SPECIAL_ITEMS):
             before = props.get("SpawnPointTags") or props.get("Tags") or props.get("RestrictedTags")

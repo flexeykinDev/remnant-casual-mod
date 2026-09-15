@@ -41,6 +41,31 @@ CONSUMABLE_MAX_DURATION = 36000    # 10 hours
 CONSUMABLE_EFFECT_MULTIPLIER = 2
 HEAL_OVER_TIME_CONSUMABLES = ("Bloodwort",)   # longer duration would only slow the healing down
 
+# --- boss weapon mods ---------------------------------------------------------------------------
+# The 13 mods built into boss weapons are not items in vanilla, so they cannot be moved to another
+# weapon. A loot entry points at its item by asset path, so an entry can be repointed at one of them
+# and the Ward 13 merchant will offer it. Each entry used this way replaces what it used to sell.
+# TEST FIRST: one mod only, until it is confirmed that it can be bought and installed on a weapon.
+MERCHANT_TABLE = "SpawnTable_Scavenger_PlayerBase"
+MERCHANT_BOSS_MODS = {
+    "SpawnTableItem_3": "/Game/World_Wasteland/Items/Weapons/Boss/Ruin/Mod_Undying.Mod_Undying_C",
+}
+# The rest, ready to be added above once the test works (entry name -> path):
+BOSS_MOD_PATHS = [
+    "/Game/World_Atoll/Items/Weapons/Boss/Guns/LongGuns/Repulsor/Mod_Banish.Mod_Banish_C",
+    "/Game/World_City/Items/Weapons/Boss/Root_Spitfire/Mod_Flamethrower.Mod_Flamethrower_C",
+    "/Game/World_City/Items/Weapons/Boss/Root_SporeLauncher/Mod_SporeShot.Mod_SporeShot_C",
+    "/Game/World_Jungle/Items/Weapons/Boss/Pan_CurseOfTheJungleGod/Mod_TentacleShot.Mod_TentacleShot_C",
+    "/Game/World_Jungle/Items/Weapons/Boss/Pan_EyeOfTheStorm/Mod_StaticFieldShot.Mod_StaticFieldShot_C",
+    "/Game/World_Rural/Items/Weapons/Boss/FusionRifle/Mod_FusionCannon.Mod_FusionCannon_C",
+    "/Game/World_Snow/Items/Weapons/Boss/Alternator/Mod_Incinerator.Mod_Incinerator_C",
+    "/Game/World_Swamp/Items/Weapons/Boss/Devastator/Mod_Skewer.Mod_Skewer_C",
+    "/Game/World_Swamp/Items/Weapons/Boss/HiveCannon/Mod_HiveShot.Mod_HiveShot_C",
+    "/Game/World_Swamp/Items/Weapons/Boss/PrideOfTheIskal/Mod_Vampiric.Mod_Vampiric_C",
+    "/Game/World_Wasteland/Items/Weapons/Boss/Defiler/Mod_RadioactiveVolley.Mod_RadioactiveVolley_C",
+    "/Game/World_Wasteland/Items/Weapons/Boss/ParticleAccelerator/Mod_GravityCoreShot.Mod_GravityCoreShot_C",
+]
+
 # Dragon Heart heals HealScalar x 100 health, a full heal only at vanilla's 100 max health.
 ITEM_OVERRIDES = {"Consumable_DragonHeart_Action": {"HealScalar": 10},
                   "Consumable_DragonHeart": {"MaxStackCount": 10}}

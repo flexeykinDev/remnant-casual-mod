@@ -135,6 +135,13 @@ class Asset:
         new = f"{value:g}" if isinstance(value, float) else value
         self.log.append(f"{note}{uasset.short_field(prop['name'])}: {old} -> {new}")
 
+    def set_name(self, prop, value, note=""):
+        """Repoint a name-valued property. A SoftObjectProperty keeps its (empty) sub path."""
+        if prop["type"] not in ("NameProperty", "SoftObjectProperty", "EnumProperty"):
+            raise TypeError(f"cannot set {prop['type']}")
+        struct.pack_into("<ii", self.ue, prop["value_pos"], self.name_index(value), 0)
+        self.log.append(f"{note}{prop['name']}: {prop['value']} -> {value}")
+
     def insert_int(self, export_index, before_prop, name, value, note=""):
         export = self.exports[export_index]
         pos = before_prop["tag_start"] if before_prop else export["none_pos"]
