@@ -27,8 +27,12 @@ def check(path, original):
         problems.append("TotalHeaderSize")
     if ue[-4:] != orig_ue[-4:] or names[:len(orig_names)] != orig_names:
         problems.append("package tag or name map changed")
-    if [(e["name"], e["class"]) for e in exports] != [(e["name"], e["class"]) for e in orig_exports]:
+    if [(e["name"], e["class"]) for e in exports[:len(orig_exports)]] != \
+            [(e["name"], e["class"]) for e in orig_exports]:
         problems.append("export names or classes changed")
+    for export in exports[len(orig_exports):]:  # objects this mod adds must still read back
+        if export["none_pos"] is None or not export["props"]:
+            problems.append(f"{export['name']}: added object does not parse")
 
     added = 0
     for export, original_export in zip(exports, orig_exports):

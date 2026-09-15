@@ -1,8 +1,10 @@
 # Remnant: From the Ashes - Casual Mod | flexeykinDEV
 """What the mod changes. plan() picks a rule per asset, each rule edits one open package."""
+import hashlib
 import math
 import os
 import re
+import struct
 
 import config
 from . import uasset
@@ -169,11 +171,42 @@ def stats_table(a, name):
             a.set(p, 0.0 if p["type"] == "FloatProperty" else 0, f"[{row}] ")
 
 
-def recipes(a, _name):
+def recipes(a, name):
     for export in a.exports:
         for p in export["props"]:
             if p["name"].startswith("Ingredient") and p["name"].endswith("Quantity") and p["value"] > 1:
                 a.set(p, max(1, math.ceil(p["value"] / config.RECIPE_COST_DIVISOR)), f"[{export['name']}] ")
+    if name == config.CRAFT_RECIPE_LIST:
+        add_boss_mod_recipes(a)
+
+
+def add_boss_mod_recipes(a):
+    """Clone a mod recipe once per boss mod, pointing it at that mod and its boss material."""
+    template = next(i for i, e in enumerate(a.exports) if e["class"] == "CraftingRecipe")
+    serial, start = a.export_serial(template)
+    fields = {p["name"]: p for p in a.exports[template]["props"]}
+    deps = a.template_deps(template)
+    list_index, list_export = next((i, e) for i, e in enumerate(a.exports)
+                                   if e["class"] == "CraftingRecipeList")
+    added = []
+
+    for n, (mod_path, material_path) in enumerate(config.BOSS_MOD_RECIPES):
+        mod_asset, mod_class = mod_path.rsplit(".", 1)
+        item = a.class_import(mod_asset, mod_class)
+        material = a.class_import(material_path, material_path.rsplit("/", 1)[1] + "_C")
+
+        data = bytearray(serial)
+        struct.pack_into("<i", data, fields["Item"]["value_pos"] - start, item)
+        struct.pack_into("<i", data, fields["Ingredient1"]["value_pos"] - start, material)
+        guid = fields["Guid"]["value_pos"] - start
+        data[guid:guid + 16] = hashlib.md5(mod_path.encode()).digest()
+
+        new_deps = list(deps)
+        new_deps[0], new_deps[1] = item, material  # template lists Item and Ingredient1 first
+        added.append(a.add_object(template, f"CraftingRecipe_{900 + n}", data, new_deps,
+                                  f"[{mod_class}] "))
+
+    a.append_object_refs(list_index, top(list_export)["Recipes"], added, "[recipe list] ")
 
 
 def trinket(a, name):

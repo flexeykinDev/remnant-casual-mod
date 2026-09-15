@@ -1,8 +1,14 @@
 # Remnant: From the Ashes - Casual Mod | flexeykinDEV
-"""Editable package: change property values, add properties and names, fix up offsets on save."""
+"""Editable package: change values, add properties, names, imports and whole objects.
+
+Saving rebuilds the package section by section (names, imports, exports, depends, asset registry,
+preload dependencies) and recomputes every offset, so sections can grow.
+"""
 import struct
 
 from . import uasset
+
+IMPORT_ENTRY_SIZE = 28
 
 
 def _crc_tables():
@@ -23,9 +29,9 @@ CRC_REFLECTED, CRC_NORMAL = _crc_tables()
 
 
 def name_hashes(s):
-    """Name map hashes: FCrc::Strihash_DEPRECATED and FCrc::StrCrc32, both truncated to 16 bits.
+    """Name map hashes: FCrc::Strihash_DEPRECATED and FCrc::StrCrc32, both cut to 16 bits.
 
-    A wrong hash makes the engine file the name in another bucket, so property lookups miss it.
+    A wrong hash files the name in another bucket, so property lookups miss it.
     """
     h = 0
     for ch in s.upper().encode("latin-1"):
@@ -38,14 +44,8 @@ def name_hashes(s):
     return h & 0xFFFF, (~c) & 0xFFFF
 
 
-OFFSET_FIELDS = ["TotalHeaderSize", "GatherableTextDataOffset", "ExportOffset", "ImportOffset",
-                 "DependsOffset", "SoftPackageReferencesOffset", "SearchableNamesOffset",
-                 "ThumbnailTableOffset", "AssetRegistryDataOffset", "WorldTileInfoDataOffset",
-                 "PreloadDependencyOffset"]
-
-
 def read_summary_fields(ua):
-    """Positions of the summary fields that have to be patched when the package grows."""
+    """Positions of the summary fields that have to be patched when the package changes size."""
     p = 0
 
     def take(fmt):
@@ -74,7 +74,9 @@ def read_summary_fields(ua):
         fields[name] = take("<i")[0]
     p += 16
     _, generations = take("<i")
-    fields["LastGenerationNameCount"] = p + 8 * generations - 4 if generations else None
+    if generations:
+        fields["LastGenerationExportCount"] = p + 8 * generations - 8
+        fields["LastGenerationNameCount"] = p + 8 * generations - 4
     p += 8 * generations
     for _ in range(2):
         p += 10
@@ -102,19 +104,37 @@ class Asset:
         self.path = uasset_path
         ua, ue, self.names, self.exports = uasset.parse(uasset_path)
         self.ua, self.ue = bytearray(ua), bytearray(ue)
+        self.uasset_size = len(ua)
         self.fields = read_summary_fields(self.ua)
-        p = self.i32(self.fields["NameOffset"])
-        for _ in range(self.i32(self.fields["NameCount"])):
-            n = struct.unpack_from("<i", self.ua, p)[0]
-            p += 4 + (n if n >= 0 else -n * 2) + 4
-        self.name_map_end = p
+        f = self.fields
+
+        name_offset = self.i32("NameOffset")
+        import_offset, import_count = self.i32("ImportOffset"), self.i32("ImportCount")
+        export_offset, export_count = self.i32("ExportOffset"), self.i32("ExportCount")
+        depends_offset = self.i32("DependsOffset")
+        registry_offset = self.i32("AssetRegistryDataOffset")
+        preload_offset, preload_count = self.i32("PreloadDependencyOffset"), self.i32("PreloadDependencyCount")
+
+        self.header = bytearray(ua[:name_offset])
+        self.imports = [bytearray(ua[import_offset + i * IMPORT_ENTRY_SIZE:
+                                     import_offset + (i + 1) * IMPORT_ENTRY_SIZE])
+                        for i in range(import_count)]
+        self.export_entries = [bytearray(ua[export_offset + i * uasset.EXPORT_ENTRY_SIZE:
+                                            export_offset + (i + 1) * uasset.EXPORT_ENTRY_SIZE])
+                               for i in range(export_count)]
+        self.depends = bytearray(ua[depends_offset:registry_offset])
+        self.registry = bytearray(ua[registry_offset:preload_offset])
+        self.preload = list(struct.unpack_from(f"<{preload_count}i", ua, preload_offset))
+
         self.new_names = []
-        self.inserts = []
+        self.inserts = []       # (uexp position, export index, bytes)
+        self.new_objects = []   # {"entry", "serial", "deps"}
         self.log = []
 
-    def i32(self, pos):
-        return struct.unpack_from("<i", self.ua, pos)[0]
+    def i32(self, field):
+        return struct.unpack_from("<i", self.ua, self.fields[field])[0]
 
+    # ---- names, values --------------------------------------------------------------------------
     def name_index(self, s):
         if s in self.names:
             return self.names.index(s)
@@ -150,39 +170,129 @@ class Asset:
         self.inserts.append((pos, export_index, tag))
         self.log.append(f"{note}{name}: (default) -> {value} (added)")
 
+    def append_object_refs(self, export_index, prop, indices, note=""):
+        """Append entries to an ArrayProperty of ObjectProperty (e.g. a recipe list)."""
+        count = len(prop["value"])
+        data = b"".join(struct.pack("<i", i) for i in indices)
+        self.inserts.append((prop["value_pos"] + 4 + 4 * count, export_index, data))
+        struct.pack_into("<i", self.ue, prop["value_pos"], count + len(indices))
+        size_pos = prop["tag_start"] + 16
+        size = struct.unpack_from("<i", self.ue, size_pos)[0]
+        struct.pack_into("<i", self.ue, size_pos, size + len(data))
+        self.log.append(f"{note}{prop['name']}: {count} -> {count + len(indices)} entries")
+
+    # ---- imports and objects --------------------------------------------------------------------
+    def _fname(self, s):
+        return struct.pack("<ii", self.name_index(s), 0)
+
+    def import_index(self, class_package, class_name, outer, object_name):
+        """Index (as a negative package index) of an import, adding it if it is not there yet."""
+        entry = self._fname(class_package) + self._fname(class_name) + struct.pack("<i", outer) \
+            + self._fname(object_name)
+        for i, existing in enumerate(self.imports):
+            if existing == entry:
+                return -(i + 1)
+        self.imports.append(bytearray(entry))
+        return -len(self.imports)
+
+    def class_import(self, asset_path, class_name):
+        """Import a blueprint class, e.g. ("/Game/.../Mod_Undying", "Mod_Undying_C")."""
+        package = self.import_index("/Script/CoreUObject", "Package", 0, asset_path)
+        return self.import_index("/Script/Engine", "BlueprintGeneratedClass", package, class_name)
+
+    def export_serial(self, export_index):
+        """Raw object data of an export plus its start position in the .uexp."""
+        export = self.exports[export_index]
+        start = export["offset"] - self.uasset_size
+        return bytearray(self.ue[start:start + export["size"]]), start
+
+    def add_object(self, template_index, object_name, serial, deps, note=""):
+        """Append a new export cloned from an existing one, with its own data and preload deps."""
+        entry = bytearray(self.export_entries[template_index])
+        struct.pack_into("<ii", entry, 16, self.name_index(object_name), 0)
+        struct.pack_into("<q", entry, 28, len(serial))
+        struct.pack_into("<iiiii", entry, 84, len(self.preload), 0,
+                         *self._dep_counts(template_index))
+        self.preload.extend(deps)
+        self.new_objects.append({"entry": entry, "serial": bytearray(serial)})
+        self.depends += b"\0\0\0\0"  # no hard depends entries for the new object
+        self.log.append(f"{note}{object_name}: new object (added)")
+        return len(self.export_entries) + len(self.new_objects)  # 1-based export index
+
+    def _dep_counts(self, template_index):
+        return struct.unpack_from("<iii", self.export_entries[template_index], 88 + 4)
+
+    def template_deps(self, template_index):
+        """The preload dependency entries an export declares, as a flat list."""
+        first = struct.unpack_from("<i", self.export_entries[template_index], 84)[0]
+        total = sum(self._dep_counts(template_index)) + \
+            struct.unpack_from("<i", self.export_entries[template_index], 88)[0]
+        return self.preload[first:first + total]
+
+    # ---- save -----------------------------------------------------------------------------------
     def save(self, out_path):
-        ua, ue = bytearray(self.ua), bytearray(self.ue)
-        growth = [0] * len(self.exports)
+        ue = bytearray(self.ue)
+        growth = [0] * len(self.export_entries)
         for pos, n, data in sorted(self.inserts, key=lambda x: x[0], reverse=True):
             ue[pos:pos] = data
             growth[n] += len(data)
 
-        name_bytes = b""
-        for s in self.new_names:
+        tag = ue[-4:]  # package tag closes the .uexp
+        ue = ue[:-4]
+        new_positions = []
+        for obj in self.new_objects:
+            new_positions.append(len(ue))
+            ue += obj["serial"]
+        ue += tag
+
+        name_bytes = bytearray()
+        for s in self.names:
             raw = s.encode("utf-8") + b"\0"
             name_bytes += struct.pack("<i", len(raw)) + raw + struct.pack("<HH", *name_hashes(s))
-        delta = len(name_bytes)
+
+        entries = [bytearray(e) for e in self.export_entries] + [o["entry"] for o in self.new_objects]
+
+        name_offset = len(self.header)
+        import_offset = name_offset + len(name_bytes)
+        export_offset = import_offset + len(self.imports) * IMPORT_ENTRY_SIZE
+        depends_offset = export_offset + len(entries) * uasset.EXPORT_ENTRY_SIZE
+        registry_offset = depends_offset + len(self.depends)
+        preload_offset = registry_offset + len(self.registry)
+        header_size = preload_offset + len(self.preload) * 4
+
+        position = 0
+        for i, entry in enumerate(entries):
+            if i < len(self.export_entries):
+                size = self.exports[i]["size"] + growth[i]
+            else:
+                size = struct.unpack_from("<q", entry, 28)[0]
+                position = new_positions[i - len(self.export_entries)]
+            struct.pack_into("<qq", entry, 28, size, header_size + position)
+            position += size
+
+        ua = bytearray(self.header) + name_bytes
+        for entry in self.imports:
+            ua += entry
+        for entry in entries:
+            ua += entry
+        ua += self.depends + self.registry
+        ua += struct.pack(f"<{len(self.preload)}i", *self.preload)
+
         f = self.fields
+        for field, value in [("NameCount", len(self.names)), ("NameOffset", name_offset),
+                             ("ImportCount", len(self.imports)), ("ImportOffset", import_offset),
+                             ("ExportCount", len(entries)), ("ExportOffset", export_offset),
+                             ("DependsOffset", depends_offset),
+                             ("AssetRegistryDataOffset", registry_offset),
+                             ("PreloadDependencyCount", len(self.preload)),
+                             ("PreloadDependencyOffset", preload_offset),
+                             ("TotalHeaderSize", header_size),
+                             ("LastGenerationNameCount", len(self.names)),
+                             ("LastGenerationExportCount", len(entries))]:
+            if f.get(field) is not None:
+                struct.pack_into("<i", ua, f[field], value)
+        struct.pack_into("<q", ua, f["BulkDataStartOffset"], header_size + len(ue) - 4)
 
-        for field in OFFSET_FIELDS:
-            value = self.i32(f[field])
-            if value >= self.name_map_end:
-                struct.pack_into("<i", ua, f[field], value + delta)
-        struct.pack_into("<i", ua, f["NameCount"], len(self.names))
-        if f["LastGenerationNameCount"] is not None:
-            struct.pack_into("<i", ua, f["LastGenerationNameCount"], len(self.names))
-        bulk = struct.unpack_from("<q", ua, f["BulkDataStartOffset"])[0]
-        struct.pack_into("<q", ua, f["BulkDataStartOffset"], bulk + delta + sum(growth))
-
-        export_offset = self.i32(f["ExportOffset"])
-        shift = delta
-        for i in range(len(self.exports)):
-            field_pos = export_offset + i * uasset.EXPORT_ENTRY_SIZE + 28
-            size, offset = struct.unpack_from("<qq", ua, field_pos)
-            struct.pack_into("<qq", ua, field_pos, size + growth[i], offset + shift)
-            shift += growth[i]
-
-        ua[self.name_map_end:self.name_map_end] = name_bytes
         with open(out_path, "wb") as out:
             out.write(ua)
         with open(out_path[:-7] + ".uexp", "wb") as out:

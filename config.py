@@ -71,6 +71,37 @@ BOSS_MOD_PATHS = [
     "/Game/World_Atoll/Items/Weapons/Boss/Guns/LongGuns/Repulsor/Mod_Banish.Mod_Banish_C",
 ]
 
+# New crafting recipes for the same mods, built as real objects inside RecipeList_WeaponMods, so they
+# show up in McCabe's mod crafting tab. Each one costs the boss material its weapon costs, plus the
+# lumenite and scrap every other mod recipe asks for.
+CRAFT_RECIPE_LIST = "RecipeList_WeaponMods"
+BOSS_MOD_RECIPES = [
+    ("/Game/World_Wasteland/Items/Weapons/Boss/Ruin/Mod_Undying.Mod_Undying_C",
+     "/Game/World_Wasteland/Items/Resources/BossResources/Resource_Wasteland_TheUndyingHeart"),
+    ("/Game/World_Wasteland/Items/Weapons/Boss/ParticleAccelerator/Mod_GravityCoreShot.Mod_GravityCoreShot_C",
+     "/Game/World_Wasteland/Items/Resources/BossResources/Resource_Wasteland_VoidSliver"),
+    ("/Game/World_Wasteland/Items/Weapons/Boss/Defiler/Mod_RadioactiveVolley.Mod_RadioactiveVolley_C",
+     "/Game/World_Wasteland/Items/Resources/BossResources/Resource_Wasteland_ThermalGeode"),
+    ("/Game/World_Swamp/Items/Weapons/Boss/HiveCannon/Mod_HiveShot.Mod_HiveShot_C",
+     "/Game/World_Swamp/Items/Resources/BossResources/Resource_Swamp_Hivestone"),
+    ("/Game/World_Swamp/Items/Weapons/Boss/PrideOfTheIskal/Mod_Vampiric.Mod_Vampiric_C",
+     "/Game/World_Swamp/Items/Resources/BossResources/Resource_Swamp_CrystallinePlasma"),
+    ("/Game/World_Swamp/Items/Weapons/Boss/Devastator/Mod_Skewer.Mod_Skewer_C",
+     "/Game/World_Swamp/Items/Resources/BossResources/Resource_Swamp_UncleanHeart"),
+    ("/Game/World_Snow/Items/Weapons/Boss/Alternator/Mod_Incinerator.Mod_Incinerator_C",
+     "/Game/World_Snow/Items/Resources/BossResources/Resource_Snow_ColdCell"),
+    ("/Game/World_Jungle/Items/Weapons/Boss/Pan_EyeOfTheStorm/Mod_StaticFieldShot.Mod_StaticFieldShot_C",
+     "/Game/World_Jungle/Items/Resources/BossResources/Resource_Pan_TotemAntler"),
+    ("/Game/World_Jungle/Items/Weapons/Boss/Pan_CurseOfTheJungleGod/Mod_TentacleShot.Mod_TentacleShot_C",
+     "/Game/World_Jungle/Items/Resources/BossResources/Resource_Pan_TentaclePod"),
+    ("/Game/World_City/Items/Weapons/Boss/Root_SporeLauncher/Mod_SporeShot.Mod_SporeShot_C",
+     "/Game/World_City/Items/Resources/BossResources/Resource_City_SporeGland"),
+    ("/Game/World_City/Items/Weapons/Boss/Root_Spitfire/Mod_Flamethrower.Mod_Flamethrower_C",
+     "/Game/World_City/Items/Resources/BossResources/Resource_City_BlazingHeart"),
+    ("/Game/World_Atoll/Items/Weapons/Boss/Guns/LongGuns/Repulsor/Mod_Banish.Mod_Banish_C",
+     "/Game/World_Atoll/Items/Resources/BossResources/Resource_Atoll_DreamersMana"),
+]
+
 # Dragon Heart heals HealScalar x 100 health, a full heal only at vanilla's 100 max health.
 ITEM_OVERRIDES = {"Consumable_DragonHeart_Action": {"HealScalar": 10},
                   "Consumable_DragonHeart": {"MaxStackCount": 10}}
