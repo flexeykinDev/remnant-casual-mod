@@ -2,6 +2,9 @@
 
 Paste-ready text for the Nexus Mods upload form. Not part of the build.
 
+Images: Nexus does not accept SVG, so upload `banner.png` (2400x600) and `features.png` (2400x1732)
+from this folder. Both are drawn by `make_images.py`, same as the README download button.
+
 ## Mod name
 
 ```
